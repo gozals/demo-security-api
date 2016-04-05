@@ -16,13 +16,15 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/', function () {
         return view('welcome');
     });
-
 });
 
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
     Route::get('/home', 'HomeController@index');
+
+    Route::get('auth/google', 'Auth\AuthController@redirectToProvider');
+    Route::get('auth/google/callback', 'Auth\AuthController@handleProviderCallback');
 });
 
 Route::group(['prefix' => 'api/basic' , 'middleware' => 'auth.basic.once'],function($app)
@@ -35,12 +37,17 @@ Route::group(['prefix' => 'api/basic' , 'middleware' => 'auth.basic.once'],funct
 Route::group(['prefix' => '/api' , 'middleware' => 'oauth'],function($app)
 {
     Route::get('/users', function () {
+        //$user = ['nama'=>'adam'];
         $user = \App\User::find(Authorizer::getResourceOwnerId());
         return response()->json($user);
-
-        //Auth::loginUsingId($user->id);
-        //return response()->json(Auth::user());
     });
+
+    Route::post('/logout', function () {
+        Authorizer::getChecker()->getAccessToken()->expire();
+        return response()->json('success',200);
+    });
+
+
 });
 
 Route::post('oauth/access_token', function() {
