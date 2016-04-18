@@ -57,6 +57,14 @@
                                 <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
                             </div>
                         </div>
+
+                        <p class="text-center">Or</p>
+                        <div class="form-group">
+                            <div class="col-sm-6 col-sm-offset-3">
+                                <a class="btn btn-lg btn-primary btn-block google" href="{{ url('/auth/google')}}">Google +</a>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
             </div>

@@ -53,3 +53,4 @@ Route::group(['prefix' => '/api' , 'middleware' => 'oauth'],function($app)
 Route::post('oauth/access_token', function() {
     return response()->json(\LucaDegasperi\OAuth2Server\Facades\Authorizer::issueAccessToken());
 });
+
